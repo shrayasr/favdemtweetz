@@ -13,10 +13,17 @@
                                 "3063370765-T7TlE9bfO6SEaV6dvvGV6mXltOYRnLP6sBvVrNM"
                                 "EmSeWB17z8qyPBKwbWoNsrUM7TDQciYTJga3ehAHWY7ba"))
 
+(def peeps-to-stalk ["raghothams"
+                     "argvk"])
+
 (defn -main
   []
   ;(println (lists-members :oauth-creds my-creds
   ;            :params {:list_id "197805222"})))
   (favorites-create :oauth-creds my-creds
-                     :params {:id "550993690659794945"})
-  (println "done"))
+                     :params {:id "572630868549758976"}))
+  ;(println (statuses-user-timeline :oauth-creds my-creds
+  ;                                 :params {:screen-name "raghothams"
+  ;                                          :exclude-replies true
+  ;                                          :count 1
+  ;                                          :include-rts false})))
