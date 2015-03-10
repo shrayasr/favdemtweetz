@@ -48,31 +48,38 @@
 (defn get-tweet-ids-to-fav
   [handles]
   (loop [handles-to-iter handles
-         tweet-ids-to-fav []]
+         tweet-ids-to-fav {}]
     (if (empty? handles-to-iter)
       tweet-ids-to-fav
       (let [[curr-handle & rem-handles] handles-to-iter
             last-id (get-last-id curr-handle)]
         (if (nil? last-id)
           (let [new-last-id (get-most-recent-status-id curr-handle)]
-            (swap! handle-last-id assoc curr-handle new-last-id)
-            (recur rem-handles (conj tweet-ids-to-fav 
-                                     new-last-id)))
+            (recur rem-handles (assoc tweet-ids-to-fav
+                                      curr-handle
+                                      new-last-id)))
           (let [new-last-id (get-most-recent-status-id-since curr-handle
                                                              last-id)]
-            (swap! handle-last-id assoc curr-handle new-last-id)
-            (recur rem-handles (conj tweet-ids-to-fav
-                                     new-last-id))))))))
-
+            (recur rem-handles (assoc tweet-ids-to-fav
+                                      curr-handle
+                                      new-last-id))))))))
 (defn put-favourite
   [tweet-id]
-  (favorites-create :oauth-creds my-creds
-                    :params {:id tweet-id}))
+  (println (str "Putting fav to " tweet-id))
+  (try (favorites-create :oauth-creds my-creds
+                         :params {:id tweet-id})
+       (println "fav'd")
+       (catch Exception e
+         (println "Already fav'd"))))
+
+(defn put-favourites
+  [latest-tweet-ids]
+  (doseq [[handle tweet-id] latest-tweet-ids]
+    (put-favourite tweet-id)))
 
 (defn -main
   []
-  ;(get-tweet-ids-to-fav @handles)
-  ;(println @handle-last-id))
-  (put-favourite "573208573976571905")
-  (put-favourite "572630868549758976")
-  (println "done"))
+  (let [latest-tweet-ids (get-tweet-ids-to-fav @handles)]
+    (put-favourites latest-tweet-ids)
+    (swap! handle-last-id merge latest-tweet-ids)
+    (println "done")))
