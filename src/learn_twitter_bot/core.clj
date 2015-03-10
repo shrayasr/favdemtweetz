@@ -70,7 +70,7 @@
                          :params {:id tweet-id})
        (println "fav'd")
        (catch Exception e
-         (println "Already fav'd"))))
+         (println e))))
 
 (defn put-favourites
   [latest-tweet-ids]
