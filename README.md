@@ -1,14 +1,3 @@
-# learn-twitter-bot
+# [@favdemtweetz](https://twtiter.com/favdemtweetz)
 
-A Clojure library designed to ... well, that part is up to you.
-
-## Usage
-
-FIXME
-
-## License
-
-Copyright © 2015 FIXME
-
-Distributed under the Eclipse Public License either version 1.0 or (at
-your option) any later version.
+Stupid bot to favourite peoples tweets. More of an experiment with Clojure
